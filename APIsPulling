@@ -1,0 +1,79 @@
+import requests
+import os 
+from PIL import Image
+from IPython.display import IFrame
+
+#=========================================
+#Request and respond
+url='https://www.ibm.com/'
+r=requests.get(url)
+
+r.status_code #status code
+print(r.request.headers) #request headers
+print("request body:", r.request.body) #view the request body
+
+print(r.headers) #respond headers
+header['Content-Type'] #to see contect type
+r.text[...] #to see html return in the body
+
+```
+r=requests.get(url)
+
+request types
+get : Retrieve Data from server
+post : submits data to server
+put : updates data already on server
+delete : delete datafrom the server
+```
+
+#=========================================
+
+#Web Scraping
+
+##library
+!mamba install bs4==4.10.0 -y
+!pip install lxml==4.6.4
+!mamba install html5lib==1.1 -y
+# !pip install requests==2.26.0
+from bs4 import BeautifulSoup # this module helps in web scrapping.
+import requests  # this module helps us to download a web page
+
+##structure html to python nested structure
+html="<!DOCTYPE html><html><head><title>Page Title</title></head><body><h3><b id='boldest'>Lebron James</b></h3><p> Salary: $ 92,000,000 </p><h3> Stephen Curry</h3><p> Salary: $85,000, 000 </p><h3> Kevin Durant </h3><p> Salary: $73,200, 000</p></body></html>"
+soup = BeautifulSoup(html, "html.parser")
+
+##To see the whole nested-structured html
+print(soup.prettify())
+
+##Use tags in nested html to retrieve data
+tag_object=soup.title  #Or soup.h3
+print("tag object:",tag_object)
+
+tag_object=soup.h3
+tag_child =tag_object.b
+parent_tag=tag_child.parent
+
+#use .next_sibling to see the next one in the same level
+sibling_1=tag_object.next_sibling
+sibling_2=sibling_1.next_sibling
+
+##use .find_all(name=["tr", "td"]) to filter attributes
+##Or .find_all(id="flight") to filter ID
+
+##Ex
+```
+population_data = pd.DataFrame(columns=["Rank", "Country", "Population", "Area", "Density"])
+
+for row in tables[table_index].tbody.find_all("tr"):
+    col = row.find_all("td")
+    if (col != []):
+        rank = col[0].text
+        country = col[1].text
+        population = col[2].text.strip()
+        area = col[3].text.strip()
+        density = col[4].text.strip()
+        population_data = population_data.append({"Rank":rank, "Country":country, "Population":population, "Area":area, "Density":density}, ignore_index=True)
+
+population_data
+```
+
